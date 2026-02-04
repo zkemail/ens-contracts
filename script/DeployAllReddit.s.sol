@@ -74,14 +74,43 @@ contract DeployAllRedditScript is Script {
                 vm.toString(address(claimHandleCommandVerifier)),
                 " ",
                 vm.toString(ROOT_NODE),
-                ")"
+                ")",
+                " --chain sepolia"
             )
         );
+        console.log();
         console.log(
             string.concat(
-                "\nforge verify-contract ",
+                "forge verify-contract ",
+                vm.toString(address(handleResolverProxy)),
+                " node_modules/@openzeppelin/contracts/proxy/ERC1967/ERC1967Proxy.sol:ERC1967Proxy",
+                " --chain sepolia"
+            )
+        );
+        console.log();
+        console.log(
+            string.concat(
+                "forge verify-contract ",
                 vm.toString(address(handleResolverImpl)),
-                " src/resolvers/HandleResolver.sol:HandleResolver"
+                " src/resolvers/HandleResolver.sol:HandleResolver",
+                " --chain sepolia"
+            )
+        );
+        console.log();
+        console.log(
+            string.concat(
+                "forge verify-contract ",
+                vm.toString(address(claimHandleCommandVerifier)),
+                " src/verifiers/ClaimHandleCommandVerifier.sol:ClaimHandleCommandVerifier",
+                " --chain sepolia"
+            )
+        );
+        console.log();
+        console.log(
+            string.concat(
+                "forge verify-contract ",
+                vm.toString(address(honkVerifier)),
+                " test/fixtures/redditHandleCommand/HonkVerifier.sol:HonkVerifier" " --chain sepolia"
             )
         );
     }
