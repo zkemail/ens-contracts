@@ -9,6 +9,7 @@ out/
 
 # circuit generated files
 test/fixtures/handleCommand/circuit/target
+test/fixtures/redditHandleCommand/circuit/target
 
 # files
 .env
