@@ -66,16 +66,23 @@ contract DeployAllRedditScript is Script {
 
         console.log("\n=== Verification Commands ===");
         console.log(
-            "forge verify-contract", address(handleRegistrar), "src/entrypoints/HandleRegistrar.sol:HandleRegistrar"
+            string.concat(
+                "forge verify-contract ",
+                vm.toString(address(handleRegistrar)),
+                " src/entrypoints/HandleRegistrar.sol:HandleRegistrar",
+                " --constructor-args $(cast abi-encode 'constructor(address,bytes32)' ",
+                vm.toString(address(claimHandleCommandVerifier)),
+                " ",
+                vm.toString(ROOT_NODE),
+                ")"
+            )
         );
         console.log(
-            "  --constructor-args $(cast abi-encode 'constructor(address,bytes32)'",
-            address(claimHandleCommandVerifier),
-            vm.toString(ROOT_NODE),
-            ")"
-        );
-        console.log(
-            "\nforge verify-contract", address(handleResolverImpl), "src/resolvers/HandleResolver.sol:HandleResolver"
+            string.concat(
+                "\nforge verify-contract ",
+                vm.toString(address(handleResolverImpl)),
+                " src/resolvers/HandleResolver.sol:HandleResolver"
+            )
         );
     }
 }
