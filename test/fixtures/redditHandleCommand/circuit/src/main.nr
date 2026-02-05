@@ -5,15 +5,15 @@ use poseidon::poseidon;
 use std::{collections::bounded_vec::BoundedVec, hash::pedersen_hash};
 use zkemail::{
     dkim::RSAPubkey,
-    hash::poseidon_large,
+    
     headers::body_hash::get_body_hash,
     partial_hash::partial_sha256_var_end, remove_soft_line_breaks::remove_soft_line_breaks,
     masking::mask_text, Sequence, utils::pack_bytes,
 };
 fn main(
     header: BoundedVec<u8, 1088>,
-    pubkey: RSAPubkey<18>,
-    signature: [Field; 18],
+    pubkey: RSAPubkey<9>,
+    signature: [Field; 9],
     prover_address: [Field; 1],
     dkim_header_sequence: Sequence,
     body: BoundedVec<u8, 2048>,
@@ -60,7 +60,7 @@ fn main(
         "Decoded body does not properly remove soft line breaks",
     );
     let pubkey_hash = pubkey.hash();
-    let email_nullifier = poseidon::bn254::hash_1([poseidon_large(signature)]);
+    let email_nullifier = poseidon::bn254::hash_1([poseidon::bn254::hash_9(signature)]);
     let handle_capture_1 = handle_regex::regex_match::<2048, 175>(
         decoded_body.storage(),
         handle_match_start,
