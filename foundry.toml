@@ -28,4 +28,5 @@ wrap_comments = true
 ignore = [
   # ignore circuit generated files
   "test/fixtures/handleCommand/circuit/target/*.sol",
+  "test/fixtures/redditHandleCommand/circuit/target/*.sol",
 ]
