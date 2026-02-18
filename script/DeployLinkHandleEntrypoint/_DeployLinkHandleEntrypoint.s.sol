@@ -11,35 +11,35 @@ abstract contract DeployLinkHandleEntrypointScript is Script {
 
         vm.startBroadcast(deployerPrivateKey);
 
-        console.log("\n=== Step 1: Deploy HonkVerifier ===");
-
-        address honkVerifier = _deployHonkVerifier();
-        console.log("HonkVerifier deployed at:", address(honkVerifier));
-
-        console.log("\n=== Step 2: Deploy LinkHandleCommandVerifier ===");
-        LinkHandleCommandVerifier commandVerifier = new LinkHandleCommandVerifier(honkVerifier, _dkimRegistry());
+        console.log("\n=== Step 1: Deploy LinkHandleCommandVerifier ===");
+        LinkHandleCommandVerifier commandVerifier =
+            new LinkHandleCommandVerifier(_getHonkVerifierAddress(), _getDkimRegistryAddress());
         console.log("LinkHandleCommandVerifier deployed at:", address(commandVerifier));
 
-        console.log("\n=== Step 3: Deploy LinkHandleEntrypoint ===");
-        LinkHandleEntrypoint verifier =
-            new LinkHandleEntrypoint(address(commandVerifier), _recordName(), _platformName());
-        console.log("LinkHandleEntrypoint deployed at:", address(verifier));
+        console.log("\n=== Step 2: Deploy LinkHandleEntrypoint ===");
+        LinkHandleEntrypoint entrypoint =
+            new LinkHandleEntrypoint(address(commandVerifier), _getRecordName(), _getPlatformName());
+        console.log("LinkHandleEntrypoint deployed at:", address(entrypoint));
 
         vm.stopBroadcast();
 
         console.log("\n=== Deployment Complete ===");
-        console.log("HONK_VERIFIER=", address(honkVerifier));
-        console.log("RECORD_NAME=", _recordName());
-        console.log("LINK_HANDLE_VERIFIER=", address(verifier));
+        console.log("HONK_VERIFIER=", _getHonkVerifierAddress());
+        console.log("DKIM_REGISTRY=", _getDkimRegistryAddress());
+        console.log("LINK_HANDLE_COMMAND_VERIFIER=", address(commandVerifier));
+        console.log("RECORD_NAME=", _getRecordName());
+        console.log("PLATFORM_NAME=", _getPlatformName());
+        console.log("LINK_HANDLE_ENTRYPOINT=", address(entrypoint));
     }
 
     /**
-     * @notice Deploys the HonkVerifier. This is needed because each platform has its own HonkVerifier generated from
-     * the circuit.
-     * @dev Example: return address(new HonkVerifier());
+     * @notice The HonkVerifier address.
+     * @dev TODO: ideally ths would be pure and would only return the address of the HonkVerifier deployed by the
+     *          registry. Currently this is deployed inside this function. Remove it once the registry deploys the
+     *          HonkVerifier.
      * @return The address of the HonkVerifier
      */
-    function _deployHonkVerifier() internal virtual returns (address);
+    function _getHonkVerifierAddress() internal virtual returns (address);
 
     /**
      * @notice The DKIM registry address.
@@ -47,17 +47,17 @@ abstract contract DeployLinkHandleEntrypointScript is Script {
      *      Example (sepolia always valid): return 0xc4f628496b8c474096650C8f9023954643cC614F;
      * @return The address of the DKIM registry
      */
-    function _dkimRegistry() internal pure virtual returns (address);
-
-    /**
-     * @notice ENS text record name (e.g. "com.twitter") — the key in setText(node, key, value).
-     * @return The record name for the text record
-     */
-    function _recordName() internal pure virtual returns (string memory);
+    function _getDkimRegistryAddress() internal pure virtual returns (address);
 
     /**
      * @notice The platform name in the command (e.g. "x").
      * @return The platform name used in the command
      */
-    function _platformName() internal pure virtual returns (string memory);
+    function _getPlatformName() internal pure virtual returns (string memory);
+
+    /**
+     * @notice ENS text record name (e.g. "com.twitter") — the key in setText(node, key, value).
+     * @return The record name for the text record
+     */
+    function _getRecordName() internal pure virtual returns (string memory);
 }
