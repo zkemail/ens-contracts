@@ -11,7 +11,7 @@ import {
     ClaimHandleCommand,
     ClaimHandleCommandVerifier
 } from "../../../../src/verifiers/ClaimHandleCommandVerifier.sol";
-import { HonkVerifier } from "../../../fixtures/handleCommand/HonkVerifier.sol";
+import { HonkVerifier } from "../../../fixtures/linkHandleCommand/twitter/target/HonkVerifier.sol";
 import { HandleCommandTestFixture } from "../../../fixtures/handleCommand/HandleCommandTestFixture.sol";
 import { IDKIMRegistry } from "@zk-email/contracts/interfaces/IERC7969.sol";
 import { EnsUtils } from "../../../../src/utils/EnsUtils.sol";

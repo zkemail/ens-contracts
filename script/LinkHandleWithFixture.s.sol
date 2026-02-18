@@ -4,7 +4,7 @@ pragma solidity ^0.8.30;
 import { Script } from "forge-std/Script.sol";
 import { LinkHandleEntrypoint } from "../src/entrypoints/LinkHandleEntrypoint.sol";
 import { LinkHandleCommand } from "../src/verifiers/HandleVerifier.sol";
-import { HandleCommandTestFixture } from "../test/fixtures/handleCommand/HandleCommandTestFixture.sol";
+import { LinkHandleCommandTestFixture } from "../test/fixtures/linkHandleCommand/LinkHandleCommandTestFixture.sol";
 
 contract LinkHandleWithFixtureScript is Script {
     // sepolia mock
@@ -16,7 +16,7 @@ contract LinkHandleWithFixtureScript is Script {
         uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
 
         LinkHandleEntrypoint verifier = LinkHandleEntrypoint(LINK_X_HANDLE_VERIFIER);
-        (LinkHandleCommand memory command,) = HandleCommandTestFixture.getLinkXFixture();
+        (LinkHandleCommand memory command,) = LinkHandleCommandTestFixture.getTwitterFixture();
 
         vm.startBroadcast(deployerPrivateKey);
 

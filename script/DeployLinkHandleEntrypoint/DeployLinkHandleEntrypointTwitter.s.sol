@@ -2,7 +2,7 @@
 pragma solidity ^0.8.30;
 
 import { DeployLinkHandleEntrypointScript } from "./_DeployLinkHandleEntrypoint.s.sol";
-import { HonkVerifier } from "../../test/fixtures/handleCommand/HonkVerifier.sol";
+import { HonkVerifier } from "../../test/fixtures/linkHandleCommand/twitter/target/HonkVerifier.sol";
 
 contract DeployLinkHandleEntrypointTwitterScript is DeployLinkHandleEntrypointScript {
     function _getHonkVerifierAddress() internal override returns (address) {

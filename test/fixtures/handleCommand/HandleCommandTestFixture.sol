@@ -2,9 +2,8 @@
 pragma solidity ^0.8.30;
 
 import { Vm } from "forge-std/Vm.sol";
-import { LinkHandleCommand, PublicInputs } from "../../../src/verifiers/HandleVerifier.sol";
+import { PublicInputs } from "../../../src/verifiers/HandleVerifier.sol";
 import { ClaimHandleCommand } from "../../../src/verifiers/ClaimHandleCommandVerifier.sol";
-import { TextRecord } from "../../../src/entrypoints/LinkTextRecordEntrypoint.sol";
 import { TestStringUtils } from "../../utils/TestStringUtils.sol";
 import { Strings } from "@openzeppelin/contracts/utils/Strings.sol";
 
@@ -31,26 +30,6 @@ library HandleCommandTestFixture {
         });
 
         return (command, _getPublicInputsFieldsFromBinary(string.concat(path, "files/claimX/public_inputs")));
-    }
-
-    function getLinkXFixture() internal view returns (LinkHandleCommand memory command, bytes32[] memory publicInputs) {
-        string memory path = string.concat(vm.projectRoot(), "/test/fixtures/handleCommand/");
-
-        PublicInputs memory expectedPublicInputs =
-            _getExpectedPublicInputs(string.concat(path, "files/linkX/expected_public_inputs.json"));
-
-        command = LinkHandleCommand({
-            textRecord: TextRecord({
-                platformName: TestStringUtils.getNthWord(expectedPublicInputs.command, 2),
-                ensName: TestStringUtils.getNthWord(expectedPublicInputs.command, -1),
-                value: expectedPublicInputs.handle,
-                nullifier: expectedPublicInputs.emailNullifier
-            }),
-            proof: abi.encodePacked(_getProofFieldsFromBinary(string.concat(path, "files/linkX/proof"))),
-            publicInputs: expectedPublicInputs
-        });
-
-        return (command, _getPublicInputsFieldsFromBinary(string.concat(path, "files/linkX/public_inputs")));
     }
 
     /**

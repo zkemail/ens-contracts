@@ -2,7 +2,7 @@
 pragma solidity ^0.8.30;
 
 import { Test } from "forge-std/Test.sol";
-import { HandleCommandTestFixture } from "../../../fixtures/handleCommand/HandleCommandTestFixture.sol";
+import { LinkHandleCommandTestFixture } from "../../../fixtures/linkHandleCommand/LinkHandleCommandTestFixture.sol";
 import { LinkHandleCommand } from "../../../../src/verifiers/HandleVerifier.sol";
 import { LinkHandleCommandVerifierHelper } from "./_LinkHandleCommandVerifierHelper.sol";
 
@@ -17,7 +17,7 @@ contract PackPublicInputsTest is Test {
 
     function test_correctlyPacksPublicInputsForLinkHandleCommand() public view {
         (LinkHandleCommand memory command, bytes32[] memory expectedPublicInputs) =
-            HandleCommandTestFixture.getLinkXFixture();
+            LinkHandleCommandTestFixture.getTwitterFixture();
         bytes32[] memory publicInputs = _verifier.packPublicInputs(command.publicInputs);
         _assertEq(publicInputs, expectedPublicInputs);
     }

@@ -7,9 +7,8 @@ coverage/
 node_modules/
 out/
 
-# circuit generated files
-test/fixtures/handleCommand/circuit/target
-test/fixtures/redditHandleCommand/circuit/target
+# ignore circuit generated files (target directories under fixtures)
+test/fixtures/**/target
 
 # files
 .env

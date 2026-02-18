@@ -2,7 +2,7 @@
 pragma solidity ^0.8.30;
 
 import { HandleCommandTestFixture } from "../../../fixtures/handleCommand/HandleCommandTestFixture.sol";
-import { HonkVerifier } from "../../../fixtures/handleCommand/HonkVerifier.sol";
+import { HonkVerifier } from "../../../fixtures/linkHandleCommand/twitter/target/HonkVerifier.sol";
 import {
     ClaimHandleCommand,
     ClaimHandleCommandVerifier,

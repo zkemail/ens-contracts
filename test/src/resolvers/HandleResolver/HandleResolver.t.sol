@@ -9,7 +9,7 @@ import { ITextResolver } from "@ensdomains/ens-contracts/contracts/resolvers/pro
 import { IAddrResolver } from "@ensdomains/ens-contracts/contracts/resolvers/profiles/IAddrResolver.sol";
 import { NameCoder } from "@ensdomains/ens-contracts/contracts/utils/NameCoder.sol";
 import { ClaimHandleCommandVerifier } from "../../../../src/verifiers/ClaimHandleCommandVerifier.sol";
-import { HonkVerifier } from "../../../fixtures/handleCommand/HonkVerifier.sol";
+import { HonkVerifier } from "../../../fixtures/linkHandleCommand/twitter/target/HonkVerifier.sol";
 import { EnsUtils } from "../../../../src/utils/EnsUtils.sol";
 
 contract HandleResolverTest is Test {
