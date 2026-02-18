@@ -14,7 +14,11 @@ contract DeployLinkHandleEntrypointTwitterScript is DeployLinkHandleEntrypointSc
         return 0xc4f628496b8c474096650C8f9023954643cC614F;
     }
 
-    function _keyName() internal pure override returns (string memory) {
+    function _recordName() internal pure override returns (string memory) {
         return "com.twitter";
+    }
+
+    function _platformName() internal pure override returns (string memory) {
+        return "x";
     }
 }

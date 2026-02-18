@@ -21,14 +21,15 @@ abstract contract DeployLinkHandleEntrypointScript is Script {
         console.log("LinkHandleCommandVerifier deployed at:", address(commandVerifier));
 
         console.log("\n=== Step 3: Deploy LinkHandleEntrypoint ===");
-        LinkHandleEntrypoint verifier = new LinkHandleEntrypoint(address(commandVerifier), _keyName());
+        LinkHandleEntrypoint verifier =
+            new LinkHandleEntrypoint(address(commandVerifier), _recordName(), _platformName());
         console.log("LinkHandleEntrypoint deployed at:", address(verifier));
 
         vm.stopBroadcast();
 
         console.log("\n=== Deployment Complete ===");
         console.log("HONK_VERIFIER=", address(honkVerifier));
-        console.log("KEY_NAME=", _keyName());
+        console.log("RECORD_NAME=", _recordName());
         console.log("LINK_HANDLE_VERIFIER=", address(verifier));
     }
 
@@ -49,9 +50,14 @@ abstract contract DeployLinkHandleEntrypointScript is Script {
     function _dkimRegistry() internal pure virtual returns (address);
 
     /**
-     * @notice The key name for the text record.
-     * @dev Example: return "com.twitter";
-     * @return The key name for the text record
+     * @notice ENS text record name (e.g. "com.twitter") — the key in setText(node, key, value).
+     * @return The record name for the text record
      */
-    function _keyName() internal pure virtual returns (string memory);
+    function _recordName() internal pure virtual returns (string memory);
+
+    /**
+     * @notice The platform name in the command (e.g. "x").
+     * @return The platform name used in the command
+     */
+    function _platformName() internal pure virtual returns (string memory);
 }

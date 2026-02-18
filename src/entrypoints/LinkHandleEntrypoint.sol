@@ -13,10 +13,16 @@ contract LinkHandleEntrypoint is LinkTextRecordEntrypoint {
     /**
      * @notice Constructor
      * @param verifier The LinkHandleCommandVerifier contract address
-     * @param keyName The key name for the text record (e.g. "com.twitter")
-     * @dev The key name is used to identify the text record in the mapping
+     * @param recordName ENS text record name (e.g. "com.twitter") — the key in setText(node, key, value)
+     * @param platformName The platform name in the command (e.g. "Twitter")
      */
-    constructor(address verifier, string memory keyName) LinkTextRecordEntrypoint(verifier, keyName) { }
+    constructor(
+        address verifier,
+        string memory recordName,
+        string memory platformName
+    )
+        LinkTextRecordEntrypoint(verifier, recordName, platformName)
+    { }
 
     /**
      * @inheritdoc LinkTextRecordEntrypoint

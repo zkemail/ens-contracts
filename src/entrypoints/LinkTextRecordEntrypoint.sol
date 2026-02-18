@@ -21,7 +21,8 @@ struct TextRecord {
 abstract contract LinkTextRecordEntrypoint is IEntryPoint, ITextRecordVerifier {
     using EnsUtils for bytes;
 
-    bytes32 private immutable _KEY;
+    bytes32 private immutable _recordNameHash;
+    bytes32 private immutable _platformNameHash;
 
     // link text record command verifier
     address public immutable VERIFIER;
@@ -35,9 +36,12 @@ abstract contract LinkTextRecordEntrypoint is IEntryPoint, ITextRecordVerifier {
     error InvalidCommand();
     error NullifierUsed();
 
-    constructor(address verifier, string memory keyName) {
+    /// @param recordName ENS text record name (e.g. "com.twitter") — the key in setText(node, key, value)
+    /// @param platformName Platform name in the command (e.g. "x")
+    constructor(address verifier, string memory recordName, string memory platformName) {
         VERIFIER = verifier;
-        _KEY = keccak256(bytes(keyName));
+        _recordNameHash = keccak256(bytes(recordName));
+        _platformNameHash = bytes(platformName).length == 0 ? bytes32(0) : keccak256(bytes(platformName));
     }
 
     /**
@@ -47,6 +51,10 @@ abstract contract LinkTextRecordEntrypoint is IEntryPoint, ITextRecordVerifier {
      */
     function entrypoint(bytes memory data) external {
         TextRecord memory record = _extractTextRecord(data);
+
+        if (_platformNameHash != bytes32(0) && keccak256(bytes(record.platformName)) != _platformNameHash) {
+            revert InvalidCommand();
+        }
 
         if (_isUsed[record.nullifier]) {
             revert NullifierUsed();
@@ -82,8 +90,8 @@ abstract contract LinkTextRecordEntrypoint is IEntryPoint, ITextRecordVerifier {
      * @inheritdoc ITextRecordVerifier
      */
     function verifyTextRecord(bytes32 node, string memory key, string memory value) external view returns (bool) {
-        // this verifier only supports this specific text record
-        if (keccak256(bytes(key)) != _KEY) {
+        // this verifier only supports this specific text record (key must match constructor recordName)
+        if (keccak256(bytes(key)) != _recordNameHash) {
             revert UnsupportedKey();
         }
         string memory storedTextRecord = textRecord[node];

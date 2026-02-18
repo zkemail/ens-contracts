@@ -14,7 +14,8 @@ import { IDKIMRegistry } from "@zk-email/contracts/interfaces/IERC7969.sol";
 contract LinkHandleVerifierTest is Test {
     using EnsUtils for bytes;
 
-    string public constant KEY_NAME = "com.platform-domain";
+    string public constant RECORD_NAME = "com.twitter";
+    string public constant PLATFORM_NAME = "x";
 
     LinkHandleCommandVerifier public verifier;
     LinkHandleEntrypointHelper public linkHandle;
@@ -32,7 +33,7 @@ contract LinkHandleVerifierTest is Test {
             abi.encode(true)
         );
         verifier = new LinkHandleCommandVerifier(address(new HonkVerifier()), dkimRegistry);
-        linkHandle = new LinkHandleEntrypointHelper(address(verifier), KEY_NAME);
+        linkHandle = new LinkHandleEntrypointHelper(address(verifier), RECORD_NAME, PLATFORM_NAME);
     }
 
     function test_entrypoint_correctlyEncodesAndValidatesCommand() public {
@@ -55,13 +56,24 @@ contract LinkHandleVerifierTest is Test {
         linkHandle.entrypoint(encodedCommand);
     }
 
+    function test_entrypoint_revertsWhenPlatformNameMismatch() public {
+        (LinkHandleCommand memory command, bytes32[] memory expectedPublicInputs) =
+            HandleCommandTestFixture.getLinkXFixture();
+        // Entrypoint configured for "discord" but command has platformName "x" (from fixture)
+        LinkHandleEntrypointHelper discordEntrypoint =
+            new LinkHandleEntrypointHelper(address(verifier), RECORD_NAME, "discord");
+        bytes memory encodedCommand = discordEntrypoint.encode(command.proof, expectedPublicInputs);
+        vm.expectRevert(abi.encodeWithSelector(LinkTextRecordEntrypoint.InvalidCommand.selector));
+        discordEntrypoint.entrypoint(encodedCommand);
+    }
+
     function test_verifyTextRecord_returnsFalseWhenTextRecordIsIncorrect() public {
         (LinkHandleCommand memory command, bytes32[] memory expectedPublicInputs) =
             HandleCommandTestFixture.getLinkXFixture();
         bytes memory encodedCommand = linkHandle.encode(command.proof, expectedPublicInputs);
         linkHandle.entrypoint(encodedCommand);
         assertEq(
-            linkHandle.verifyTextRecord(bytes(command.textRecord.ensName).namehash(), KEY_NAME, "incorrect"), false
+            linkHandle.verifyTextRecord(bytes(command.textRecord.ensName).namehash(), RECORD_NAME, "incorrect"), false
         );
     }
 
@@ -72,7 +84,7 @@ contract LinkHandleVerifierTest is Test {
         linkHandle.entrypoint(encodedCommand);
         assertEq(
             linkHandle.verifyTextRecord(
-                bytes(command.textRecord.ensName).namehash(), KEY_NAME, command.textRecord.value
+                bytes(command.textRecord.ensName).namehash(), RECORD_NAME, command.textRecord.value
             ),
             true
         );
