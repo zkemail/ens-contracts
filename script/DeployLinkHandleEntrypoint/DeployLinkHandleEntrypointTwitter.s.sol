@@ -5,7 +5,7 @@ import { DeployLinkHandleEntrypointScript } from "./_DeployLinkHandleEntrypoint.
 import { HonkVerifier } from "../../test/fixtures/linkHandleCommand/twitter/target/HonkVerifier.sol";
 
 contract DeployLinkHandleEntrypointTwitterScript is DeployLinkHandleEntrypointScript {
-    function _getHonkVerifierAddress() internal override returns (address) {
+    function _deployHonkVerifier() internal override returns (address) {
         return address(new HonkVerifier());
     }
 

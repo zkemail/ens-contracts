@@ -11,9 +11,13 @@ abstract contract DeployLinkHandleEntrypointScript is Script {
 
         vm.startBroadcast(deployerPrivateKey);
 
+        console.log("\n=== Step 0: Deploy HonkVerifier ===");
+        address honkVerifierAddress = _deployHonkVerifier();
+        console.log("HonkVerifier deployed at:", honkVerifierAddress);
+
         console.log("\n=== Step 1: Deploy LinkHandleCommandVerifier ===");
         LinkHandleCommandVerifier commandVerifier =
-            new LinkHandleCommandVerifier(_getHonkVerifierAddress(), _getDkimRegistryAddress());
+            new LinkHandleCommandVerifier(honkVerifierAddress, _getDkimRegistryAddress());
         console.log("LinkHandleCommandVerifier deployed at:", address(commandVerifier));
 
         console.log("\n=== Step 2: Deploy LinkHandleEntrypoint ===");
@@ -24,7 +28,7 @@ abstract contract DeployLinkHandleEntrypointScript is Script {
         vm.stopBroadcast();
 
         console.log("\n=== Deployment Complete ===");
-        console.log("HONK_VERIFIER=", _getHonkVerifierAddress());
+        console.log("HONK_VERIFIER=", honkVerifierAddress);
         console.log("DKIM_REGISTRY=", _getDkimRegistryAddress());
         console.log("LINK_HANDLE_COMMAND_VERIFIER=", address(commandVerifier));
         console.log("RECORD_NAME=", _getRecordName());
@@ -33,13 +37,14 @@ abstract contract DeployLinkHandleEntrypointScript is Script {
     }
 
     /**
-     * @notice The HonkVerifier address.
-     * @dev TODO: ideally ths would be pure and would only return the address of the HonkVerifier deployed by the
+     * @notice Deploys the HonkVerifier and returns the address.
+     * @dev TODO: ideally ths would be a pure address getter and would only return the address of the HonkVerifier
+     * deployed by the
      *          registry. Currently this is deployed inside this function. Remove it once the registry deploys the
      *          HonkVerifier.
      * @return The address of the HonkVerifier
      */
-    function _getHonkVerifierAddress() internal virtual returns (address);
+    function _deployHonkVerifier() internal virtual returns (address);
 
     /**
      * @notice The DKIM registry address.
