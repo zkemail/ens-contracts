@@ -14,6 +14,8 @@ import { IDKIMRegistry } from "@zk-email/contracts/interfaces/IERC7969.sol";
 contract LinkHandleVerifierTest is Test {
     using EnsUtils for bytes;
 
+    string public constant KEY_NAME = "com.platform-domain";
+
     LinkHandleCommandVerifier public verifier;
     LinkHandleEntrypointHelper public linkHandle;
 
@@ -30,7 +32,7 @@ contract LinkHandleVerifierTest is Test {
             abi.encode(true)
         );
         verifier = new LinkHandleCommandVerifier(address(new HonkVerifier()), dkimRegistry);
-        linkHandle = new LinkHandleEntrypointHelper(address(verifier));
+        linkHandle = new LinkHandleEntrypointHelper(address(verifier), KEY_NAME);
     }
 
     function test_entrypoint_correctlyEncodesAndValidatesCommand() public {
@@ -59,7 +61,7 @@ contract LinkHandleVerifierTest is Test {
         bytes memory encodedCommand = linkHandle.encode(command.proof, expectedPublicInputs);
         linkHandle.entrypoint(encodedCommand);
         assertEq(
-            linkHandle.verifyTextRecord(bytes(command.textRecord.ensName).namehash(), "com.twitter", "incorrect"), false
+            linkHandle.verifyTextRecord(bytes(command.textRecord.ensName).namehash(), KEY_NAME, "incorrect"), false
         );
     }
 
@@ -70,7 +72,7 @@ contract LinkHandleVerifierTest is Test {
         linkHandle.entrypoint(encodedCommand);
         assertEq(
             linkHandle.verifyTextRecord(
-                bytes(command.textRecord.ensName).namehash(), "com.twitter", command.textRecord.value
+                bytes(command.textRecord.ensName).namehash(), KEY_NAME, command.textRecord.value
             ),
             true
         );

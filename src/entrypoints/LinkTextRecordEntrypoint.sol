@@ -7,6 +7,7 @@ import { IVerifier } from "../interfaces/IVerifier.sol";
 import { EnsUtils } from "../utils/EnsUtils.sol";
 
 struct TextRecord {
+    string platformName;
     string ensName;
     string value;
     bytes32 nullifier;

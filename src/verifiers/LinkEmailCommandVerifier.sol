@@ -11,9 +11,11 @@ import { TextRecord } from "../entrypoints/LinkTextRecordEntrypoint.sol";
 /**
  * @notice Enum representing the indices of command parameters in the command template
  * @dev Used to specify which parameter to extract from the command string
- * @param ENS_NAME = 0
+ * @param PLATFORM_NAME = 0
+ * @param ENS_NAME = 1
  */
 enum CommandParamIndex {
+    PLATFORM_NAME,
     ENS_NAME
 }
 
@@ -79,6 +81,11 @@ contract LinkEmailCommandVerifier is EmailAuthVerifier {
         PublicInputs memory publicInputs = _unpackPublicInputs(publicInputsFields);
         return LinkEmailCommand({
             textRecord: TextRecord({
+                platformName: string(
+                    CommandUtils.extractCommandParamByIndex(
+                        _getTemplate(), publicInputs.maskedCommand, uint256(CommandParamIndex.PLATFORM_NAME)
+                    )
+                ),
                 // ensName is extracted from the command
                 ensName: string(
                     CommandUtils.extractCommandParamByIndex(
@@ -95,8 +102,10 @@ contract LinkEmailCommandVerifier is EmailAuthVerifier {
     }
 
     function _getMaskedCommand(LinkEmailCommand memory command) private pure returns (string memory) {
-        bytes[] memory commandParams = new bytes[](1);
-        commandParams[0] = abi.encode(command.textRecord.ensName);
+        bytes[] memory commandParams = new bytes[](2);
+        commandParams[0] = abi.encode(command.textRecord.platformName);
+        commandParams[1] = abi.encode(command.textRecord.ensName);
+
         return CommandUtils.computeExpectedCommand(commandParams, _getTemplate(), 0);
     }
 
@@ -105,7 +114,7 @@ contract LinkEmailCommandVerifier is EmailAuthVerifier {
 
         template[0] = "Link";
         template[1] = "my";
-        template[2] = "email";
+        template[2] = CommandUtils.STRING_MATCHER;
         template[3] = "to";
         template[4] = CommandUtils.STRING_MATCHER;
 

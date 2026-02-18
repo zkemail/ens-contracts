@@ -19,7 +19,7 @@ contract DeployLinkHandleEntrypointScript is Script {
 
         LinkHandleCommandVerifier commandVerifier =
             new LinkHandleCommandVerifier(address(new HonkVerifier()), DKIM_REGISTRY);
-        LinkHandleEntrypoint verifier = new LinkHandleEntrypoint(address(commandVerifier));
+        LinkHandleEntrypoint verifier = new LinkHandleEntrypoint(address(commandVerifier), "com.twitter");
         vm.stopBroadcast();
 
         console.log("LINK_HANDLE_VERIFIER=", address(verifier));

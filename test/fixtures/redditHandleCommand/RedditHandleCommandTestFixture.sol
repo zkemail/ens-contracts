@@ -5,6 +5,7 @@ import { Vm } from "forge-std/Vm.sol";
 import { LinkHandleCommand, PublicInputs } from "../../../src/verifiers/HandleVerifier.sol";
 import { ClaimHandleCommand } from "../../../src/verifiers/ClaimHandleCommandVerifier.sol";
 import { TextRecord } from "../../../src/entrypoints/LinkTextRecordEntrypoint.sol";
+import { TestStringUtils } from "../../utils/TestStringUtils.sol";
 import { Strings } from "@openzeppelin/contracts/utils/Strings.sol";
 
 address constant _VM_ADDR = address(uint160(uint256(keccak256("hevm cheat code"))));
@@ -24,7 +25,7 @@ library RedditHandleCommandTestFixture {
             _getExpectedPublicInputs(string.concat(path, "files/claimReddit/expected_public_inputs.json"));
 
         command = ClaimHandleCommand({
-            target: Strings.parseAddress(_getLastWord(expectedPublicInputs.command)),
+            target: Strings.parseAddress(TestStringUtils.getNthWord(expectedPublicInputs.command, -1)),
             proof: abi.encodePacked(_getProofFieldsFromBinary(string.concat(path, "files/claimReddit/proof"))),
             publicInputs: expectedPublicInputs
         });
@@ -44,7 +45,8 @@ library RedditHandleCommandTestFixture {
 
         command = LinkHandleCommand({
             textRecord: TextRecord({
-                ensName: _getLastWord(expectedPublicInputs.command),
+                platformName: TestStringUtils.getNthWord(expectedPublicInputs.command, 2),
+                ensName: TestStringUtils.getNthWord(expectedPublicInputs.command, -1),
                 value: expectedPublicInputs.handle,
                 nullifier: expectedPublicInputs.emailNullifier
             }),
@@ -130,29 +132,5 @@ library RedditHandleCommandTestFixture {
             publicInputs[i] = publicInputsFixed[i];
         }
         return publicInputs;
-    }
-
-    function _getLastWord(string memory input) private pure returns (string memory) {
-        bytes memory strBytes = bytes(input);
-        uint256 len = strBytes.length;
-        uint256 start = len;
-
-        // Iterate backwards to find the last space character
-        for (uint256 i = len; i > 0; i--) {
-            if (strBytes[i - 1] == 0x20) {
-                // 0x20 is the ASCII for space
-                start = i;
-                break;
-            }
-        }
-
-        // Copy the last word to a new bytes array
-        uint256 wordLen = len - start;
-        bytes memory lastWordBytes = new bytes(wordLen);
-        for (uint256 i = 0; i < wordLen; i++) {
-            lastWordBytes[i] = strBytes[start + i];
-        }
-
-        return string(lastWordBytes);
     }
 }
