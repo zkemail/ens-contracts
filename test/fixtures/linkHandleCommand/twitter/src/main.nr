@@ -1,3 +1,4 @@
+
 mod x_handle_regex;
 mod sender_domain_regex;
 use poseidon::poseidon;
@@ -33,7 +34,7 @@ fn main(
     sender_domain_capture_group_1_id: [Field; 64],
     sender_domain_capture_group_1_start: [Field; 64],
     sender_domain_capture_group_start_indices: [Field; 1],
-    ) -> pub (Field, Field, Field, Field, [Field; 1], [Field; 20], BoundedVec<u8, 64>, BoundedVec<u8, 64>) {
+) -> pub (Field, Field, Field, Field, [Field; 1] , [Field; 20], BoundedVec<u8, 64>, BoundedVec<u8, 64>) {
     // check the body and header lengths are within bounds
     assert(header.len() <= 960);
     assert(body.len() <= 1920);
@@ -78,8 +79,5 @@ fn main(
         sender_domain_capture_group_1_start,
         sender_domain_capture_group_start_indices,
     );
-    (
-        pubkey_hash, email_nullifier, header_hash[0], header_hash[1], prover_address, command,
-        x_handle_capture_1, sender_domain_capture_1,
-    )
+    (pubkey_hash, email_nullifier, header_hash[0], header_hash[1], prover_address, command, x_handle_capture_1, sender_domain_capture_1)
 }

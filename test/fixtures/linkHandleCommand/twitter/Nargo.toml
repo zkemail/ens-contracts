@@ -1,5 +1,5 @@
 [package]
-name = "link_x_handle_command"
+name = "benceharomi/x_handle@v1"
 type = "bin"
 authors = []
 compiler_version = ">=1.0.0"

@@ -1,0 +1,61 @@
+{
+  "name": "x_handle",
+  "values": [
+    {
+      "parts": [
+        {
+          "isPublic": false,
+          "regexDef": "This email was meant for @"
+        },
+        {
+          "isPublic": true,
+          "regexDef": "[A-Za-z0-9_]+",
+          "maxLength": 64
+        },
+        {
+          "isPublic": false,
+          "regexDef": " </span>"
+        }
+      ],
+      "name": "x_handle",
+      "maxLength": 8,
+      "location": "body",
+      "maxMatchLength": 64
+    },
+    {
+      "parts": [
+        {
+          "isPublic": false,
+          "regexDef": "[A-Za-z0-9!#$%&'*+=?\\-\\^_`{|}~./]+@"
+        },
+        {
+          "isPublic": true,
+          "regexDef": "[A-Za-z0-9.\\-@]+",
+          "maxLength": 64
+        },
+        {
+          "isPublic": false,
+          "regexDef": "[>\r\n]"
+        }
+      ],
+      "name": "sender_domain",
+      "maxLength": 5,
+      "location": "header",
+      "maxMatchLength": 64
+    }
+  ],
+  "version": 1,
+  "senderDomain": "x.com",
+  "externalInputs": [
+    {
+      "name": "command",
+      "maxLength": 605
+    }
+  ],
+  "emailBodyMaxLength": 1920,
+  "ignoreBodyHashCheck": false,
+  "emailHeaderMaxLength": 960,
+  "shaPrecomputeSelector": "<td height=3D\"12\" style=3D\"height:12px;line-height:1px;font-size:1px;paddin",
+  "clientZkFramework": "Noir",
+  "serverZkFramework": "SP1"
+}
