@@ -13,6 +13,9 @@ evm_version = "prague"
 ignored_warnings_from = ["node_modules"]
 fs_permissions = [{ access = "read", path = "./test/fixtures" }]
 
+[rpc_endpoints]
+sepolia = "${SEPOLIA_RPC_URL}"
+
 [profile.ci]
 verbosity = 4
 
