@@ -5,7 +5,7 @@ import { Script, console } from "forge-std/Script.sol";
 import { HandleRegistrar } from "../src/entrypoints/HandleRegistrar.sol";
 import { HandleResolver } from "../src/resolvers/HandleResolver.sol";
 import { ClaimHandleCommandVerifier } from "../src/verifiers/ClaimHandleCommandVerifier.sol";
-import { HonkVerifier } from "../test/fixtures/linkHandleCommand/twitter/target/HonkVerifier.sol";
+import { HonkVerifier } from "../test/fixtures/handleCommand/HonkVerifier.sol";
 import { EnsUtils } from "../src/utils/EnsUtils.sol";
 
 contract DeployAllDiscordScript is Script {
