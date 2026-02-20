@@ -8,6 +8,7 @@ import { HonkVerifier } from "../../../fixtures/linkHandleCommand/twitter/target
 import { EnsUtils } from "../../../../src/utils/EnsUtils.sol";
 import { LinkHandleEntrypointHelper } from "./_LinkHandleEntrypointHelper.sol";
 import { LinkTextRecordEntrypoint } from "../../../../src/entrypoints/LinkTextRecordEntrypoint.sol";
+import { ITextRecordVerifier } from "../../../../src/interfaces/ITextRecordVerifier.sol";
 import { LinkHandleCommandTestFixture } from "../../../fixtures/linkHandleCommand/LinkHandleCommandTestFixture.sol";
 import { IDKIMRegistry } from "@zk-email/contracts/interfaces/IERC7969.sol";
 
@@ -65,6 +66,13 @@ contract LinkHandleVerifierTest is Test {
         bytes memory encodedCommand = discordEntrypoint.encode(command.proof, expectedPublicInputs);
         vm.expectRevert(abi.encodeWithSelector(LinkTextRecordEntrypoint.InvalidCommand.selector));
         discordEntrypoint.entrypoint(encodedCommand);
+    }
+
+    function test_verifyTextRecord_revertsWhenKeyIsUnsupported() public {
+        (LinkHandleCommand memory command,) = LinkHandleCommandTestFixture.getTwitterFixture();
+        bytes32 node = bytes(command.textRecord.ensName).namehash();
+        vm.expectRevert(abi.encodeWithSelector(ITextRecordVerifier.UnsupportedKey.selector));
+        linkHandle.verifyTextRecord(node, "com.discord", command.textRecord.value);
     }
 
     function test_verifyTextRecord_returnsFalseWhenTextRecordIsIncorrect() public {

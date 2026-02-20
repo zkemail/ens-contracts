@@ -8,6 +8,7 @@ import { Groth16Verifier } from "../../../fixtures/Groth16Verifier.sol";
 import { EnsUtils } from "../../../../src/utils/EnsUtils.sol";
 import { LinkEmailEntrypointHelper } from "./_LinkEmailEntrypointHelper.sol";
 import { LinkTextRecordEntrypoint } from "../../../../src/entrypoints/LinkTextRecordEntrypoint.sol";
+import { ITextRecordVerifier } from "../../../../src/interfaces/ITextRecordVerifier.sol";
 import { IDKIMRegistry } from "@zk-email/contracts/interfaces/IERC7969.sol";
 
 contract LinkEmailEntrypointTest is Test {
@@ -48,6 +49,13 @@ contract LinkEmailEntrypointTest is Test {
         linkEmail.entrypoint(encodedCommand);
         vm.expectRevert(abi.encodeWithSelector(LinkTextRecordEntrypoint.NullifierUsed.selector));
         linkEmail.entrypoint(encodedCommand);
+    }
+
+    function test_verifyTextRecord_revertsWhenKeyIsUnsupported() public {
+        (LinkEmailCommand memory command,) = TestFixtures.linkEmailCommand();
+        bytes32 node = bytes(command.textRecord.ensName).namehash();
+        vm.expectRevert(abi.encodeWithSelector(ITextRecordVerifier.UnsupportedKey.selector));
+        linkEmail.verifyTextRecord(node, "com.twitter", command.textRecord.value);
     }
 
     function test_verifyTextRecord_returnsTrueWhenTextRecordIsCorrect() public {
