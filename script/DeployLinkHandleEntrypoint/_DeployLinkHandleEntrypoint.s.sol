@@ -38,7 +38,7 @@ abstract contract DeployLinkHandleEntrypointScript is Script {
 
     /**
      * @notice Deploys the HonkVerifier and returns the address.
-     * @dev TODO: ideally ths would be a pure address getter and would only return the address of the HonkVerifier
+     * @dev TODO: ideally this would be a pure address getter and would only return the address of the HonkVerifier
      * deployed by the
      *          registry. Currently this is deployed inside this function. Remove it once the registry deploys the
      *          HonkVerifier.
