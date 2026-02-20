@@ -99,7 +99,7 @@ library HandleCommandTestFixture {
         // 1) Read the raw bytes
         bytes memory publicInputsFieldsData = vm.readFileBinary(path);
 
-        // 2) Decode the blob into fixed bytes32[154]
+        // 2) Decode the blob into fixed bytes32[155]
         (bytes32[155] memory publicInputsFixed) = abi.decode(publicInputsFieldsData, (bytes32[155]));
 
         // 3) Convert to dynamic bytes32[]
