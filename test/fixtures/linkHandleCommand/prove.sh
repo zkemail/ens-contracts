@@ -19,7 +19,7 @@ fi
 
 cd "$WORKDIR"
 
-CIRCUIT_NAME=$(grep '^name = ' Nargo.toml | sed 's/name = "\(.*\)"/\1/' | tr -d ' ')
+CIRCUIT_NAME=$(grep -m 1 '^name = ' Nargo.toml | sed 's/name = "\(.*\)"/\1/' | tr -d ' ')
 if [ -z "$CIRCUIT_NAME" ]; then
     echo "Could not read circuit name from Nargo.toml" >&2
     exit 1
