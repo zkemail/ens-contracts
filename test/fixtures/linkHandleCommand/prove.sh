@@ -39,11 +39,7 @@ log() {
 log "=== Generating proof for $CIRCUIT_NAME (platform: $PLATFORM) ==="
 
 log "Step 1: Executing circuit to generate witness"
-nargo execute "$WITNESS_NAME" >> "$LOG_FILE" 2>&1
-if [ $? -ne 0 ]; then
-    log "Failed to execute circuit"
-    exit 1
-fi
+nargo execute "$WITNESS_NAME" >> "$LOG_FILE" 2>&1 || { log "Failed to execute circuit"; exit 1; }
 
 log "Step 2: Generating proof (binary format)"
 bb prove \
@@ -52,11 +48,7 @@ bb prove \
     --witness_path ./target/$WITNESS_NAME.gz \
     --output_path ./target \
     --oracle_hash keccak \
-    >> "$LOG_FILE" 2>&1
-if [ $? -ne 0 ]; then
-    log "Failed to generate proof"
-    exit 1
-fi
+    >> "$LOG_FILE" 2>&1 || { log "Failed to generate proof"; exit 1; }
 
 log "Step 3: Generating proof in fields format (JSON-compatible)"
 # Create a temporary directory for fields output
@@ -68,11 +60,7 @@ bb prove \
     --output_path ./target/fields_output \
     --oracle_hash keccak \
     --output_format fields \
-    >> "$LOG_FILE" 2>&1
-if [ $? -ne 0 ]; then
-    log "Failed to generate proof in fields format"
-    exit 1
-fi
+    >> "$LOG_FILE" 2>&1 || { log "Failed to generate proof in fields format"; exit 1; }
 
 log "Step 4: Moving fields output to target directory"
 if [ -f "./target/fields_output/proof_fields.json" ]; then
