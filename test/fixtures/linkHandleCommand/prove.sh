@@ -74,12 +74,19 @@ fi
 # Clean up temp directory
 rm -rf ./target/fields_output
 
+if [ ! -f "./target/proof_fields.json" ]; then
+    log "Error: proof_fields.json was not produced by bb prove --output_format fields"
+    exit 1
+fi
+
 log "=== Proof generation complete ==="
 log "Files generated:"
 log "  - Binary proof: ./target/proof"
 log "  - Binary public inputs: ./target/public_inputs"
 log "  - Fields proof (JSON): ./target/proof_fields.json"
-log "  - Fields public inputs (JSON): ./target/public_inputs_fields.json"
+if [ -f "./target/public_inputs_fields.json" ]; then
+    log "  - Fields public inputs (JSON): ./target/public_inputs_fields.json"
+fi
 log ""
 log "To view the proof in JSON format: cat ./target/proof_fields.json"
-log "To view the public inputs in JSON format: cat ./target/public_inputs_fields.json"
+[ -f "./target/public_inputs_fields.json" ] && log "To view the public inputs in JSON format: cat ./target/public_inputs_fields.json"
