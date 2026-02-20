@@ -42,31 +42,34 @@ log "=== Compiling $CIRCUIT_NAME noir circuit (platform: $PLATFORM) ==="
 log "Step 0: Checking Noir and BB versions"
 if [ "$(nargo --version | grep "nargo version = $NARGO_VERSION")" != "nargo version = $NARGO_VERSION" ]; then
     log "Noir version is not $NARGO_VERSION, running noirup --version $NARGO_VERSION"
-    noirup --version $NARGO_VERSION >> "$LOG_FILE" 2>&1
+    if ! noirup --version $NARGO_VERSION >> "$LOG_FILE" 2>&1; then
+        log "Failed to run noirup --version $NARGO_VERSION"
+        exit 1
+    fi
 fi
 
 if [ "$(bb --version)" != "v$BB_VERSION" ]; then
     log "BB version is not $BB_VERSION, running bbup --version $BB_VERSION"
-    bbup --version $BB_VERSION >> "$LOG_FILE" 2>&1
+    if ! bbup --version $BB_VERSION >> "$LOG_FILE" 2>&1; then
+        log "Failed to run bbup --version $BB_VERSION"
+        exit 1
+    fi
 fi
 
 log "Step 1: Compiling circuit"
-nargo compile >> "$LOG_FILE" 2>&1
-if [ $? -ne 0 ]; then
+if ! nargo compile >> "$LOG_FILE" 2>&1; then
     log "Failed to compile circuit"
     exit 1
 fi
 
 log "Step 2: Writing VK"
-bb write_vk --bytecode_path ./target/$CIRCUIT_NAME.json --output_path ./target --oracle_hash keccak >> "$LOG_FILE" 2>&1
-if [ $? -ne 0 ]; then
+if ! bb write_vk --bytecode_path ./target/$CIRCUIT_NAME.json --output_path ./target --oracle_hash keccak >> "$LOG_FILE" 2>&1; then
     log "Failed to write VK"
     exit 1
 fi
 
 log "Step 3: Writing Solidity verifier"
-bb write_solidity_verifier --vk_path ./target/vk --output_path ./target/HonkVerifier.sol >> "$LOG_FILE" 2>&1
-if [ $? -ne 0 ]; then
+if ! bb write_solidity_verifier --vk_path ./target/vk --output_path ./target/HonkVerifier.sol >> "$LOG_FILE" 2>&1; then
     log "Failed to write Solidity verifier"
     exit 1
 fi
