@@ -10,7 +10,19 @@ import { LinkHandleCommand } from "../verifiers/HandleVerifier.sol";
  * @dev The verifier can be updated via the entrypoint function.
  */
 contract LinkHandleEntrypoint is LinkTextRecordEntrypoint {
-    constructor(address verifier) LinkTextRecordEntrypoint(verifier, "com.twitter") { }
+    /**
+     * @notice Constructor
+     * @param verifier The LinkHandleCommandVerifier contract address
+     * @param recordName ENS text record name (e.g. "com.twitter") — the key in setText(node, key, value)
+     * @param platformName The platform name in the command (e.g. "Twitter")
+     */
+    constructor(
+        address verifier,
+        string memory recordName,
+        string memory platformName
+    )
+        LinkTextRecordEntrypoint(verifier, recordName, platformName)
+    { }
 
     /**
      * @inheritdoc LinkTextRecordEntrypoint

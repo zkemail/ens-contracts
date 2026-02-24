@@ -279,6 +279,7 @@ library TestFixtures {
 
         command = LinkEmailCommand({
             textRecord: TextRecord({
+                platformName: "email",
                 ensName: "zkfriendly.eth",
                 value: "thezdev1@gmail.com",
                 nullifier: hex"0CEF36D2E53A61D038B0F46466F7C1E4E5D62636FC3ACAB471C8AC6A0558F705"

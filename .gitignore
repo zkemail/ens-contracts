@@ -24,4 +24,6 @@ lcov.info
 
 Prover.toml
 raw_inputs.json
-target/
+# ignore target dir contents but keep generated .sol verifiers (e.g. HonkVerifier.sol)
+**/target/*
+!**/target/*.sol

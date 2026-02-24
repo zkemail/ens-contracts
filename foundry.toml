@@ -13,6 +13,9 @@ evm_version = "prague"
 ignored_warnings_from = ["node_modules"]
 fs_permissions = [{ access = "read", path = "./test/fixtures" }]
 
+[rpc_endpoints]
+sepolia = "${SEPOLIA_RPC_URL}"
+
 [profile.ci]
 verbosity = 4
 
@@ -26,7 +29,6 @@ quote_style = "double"
 tab_width = 4
 wrap_comments = true
 ignore = [
-  # ignore circuit generated files
-  "test/fixtures/handleCommand/circuit/target/*.sol",
-  "test/fixtures/redditHandleCommand/circuit/target/*.sol",
+  # ignore circuit generated files (target directories under fixtures)
+  "test/fixtures/**/target/*.sol",
 ]

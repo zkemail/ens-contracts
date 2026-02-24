@@ -2,8 +2,8 @@
 pragma solidity ^0.8.30;
 
 import { Test } from "forge-std/Test.sol";
-import { HandleCommandTestFixture } from "../../../fixtures/handleCommand/HandleCommandTestFixture.sol";
-import { HonkVerifier } from "../../../fixtures/handleCommand/HonkVerifier.sol";
+import { LinkHandleCommandTestFixture } from "../../../fixtures/linkHandleCommand/LinkHandleCommandTestFixture.sol";
+import { HonkVerifier } from "../../../fixtures/linkHandleCommand/twitter/target/HonkVerifier.sol";
 import { LinkHandleCommand, LinkHandleCommandVerifier } from "../../../../src/verifiers/LinkHandleCommandVerifier.sol";
 import { IDKIMRegistry } from "@zk-email/contracts/interfaces/IERC7969.sol";
 
@@ -11,7 +11,7 @@ contract IsValidTest is Test {
     LinkHandleCommandVerifier internal _verifier;
 
     function setUp() public {
-        (LinkHandleCommand memory command,) = HandleCommandTestFixture.getLinkXFixture();
+        (LinkHandleCommand memory command,) = LinkHandleCommandTestFixture.getTwitterFixture();
         address dkimRegistry = makeAddr("dkimRegistry");
         vm.mockCall(
             dkimRegistry,
@@ -29,7 +29,7 @@ contract IsValidTest is Test {
     // expect revert for now
     // TODO: figure this out
     function test_revertsWhen_InvalidProof() public {
-        (LinkHandleCommand memory command,) = HandleCommandTestFixture.getLinkXFixture();
+        (LinkHandleCommand memory command,) = LinkHandleCommandTestFixture.getTwitterFixture();
         bytes memory proof = new bytes(command.proof.length);
         proof[0] = command.proof[0] ^ bytes1(uint8(1));
         command.proof = proof;
@@ -38,20 +38,20 @@ contract IsValidTest is Test {
     }
 
     function test_returnsTrueForValidCommand() public view {
-        (LinkHandleCommand memory command,) = HandleCommandTestFixture.getLinkXFixture();
+        (LinkHandleCommand memory command,) = LinkHandleCommandTestFixture.getTwitterFixture();
         bool isValid = _verifier.verify(abi.encode(command));
         assertTrue(isValid);
     }
 
     function test_returnsFalseForWrongENSName() public view {
-        (LinkHandleCommand memory command,) = HandleCommandTestFixture.getLinkXFixture();
+        (LinkHandleCommand memory command,) = LinkHandleCommandTestFixture.getTwitterFixture();
         command.textRecord.ensName = "wrong.eth";
         bool isValid = _verifier.verify(abi.encode(command));
         assertFalse(isValid);
     }
 
     function test_returnsFalseForWrongHandle() public view {
-        (LinkHandleCommand memory command,) = HandleCommandTestFixture.getLinkXFixture();
+        (LinkHandleCommand memory command,) = LinkHandleCommandTestFixture.getTwitterFixture();
         command.textRecord.value = "wrong";
         bool isValid = _verifier.verify(abi.encode(command));
         assertFalse(isValid);

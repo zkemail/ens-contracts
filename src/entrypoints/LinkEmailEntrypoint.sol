@@ -10,7 +10,7 @@ import { LinkEmailCommand } from "../verifiers/LinkEmailCommandVerifier.sol";
  * @dev The verifier can be updated via the entrypoint function.
  */
 contract LinkEmailEntrypoint is LinkTextRecordEntrypoint {
-    constructor(address verifier) LinkTextRecordEntrypoint(verifier, "email") { }
+    constructor(address verifier) LinkTextRecordEntrypoint(verifier, "email", "email") { }
 
     /**
      * @inheritdoc LinkTextRecordEntrypoint
