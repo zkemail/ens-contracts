@@ -16,6 +16,14 @@ Vm constant linkHandleVm = Vm(_LINK_HANDLE_VM_ADDR);
  *      (expected_public_inputs.json, proof, public_inputs, email.eml) to enable that platform.
  */
 library LinkHandleCommandTestFixture {
+    function getDiscordFixture()
+        internal
+        view
+        returns (LinkHandleCommand memory command, bytes32[] memory publicInputs)
+    {
+        return getFixture("discord");
+    }
+
     function getTwitterFixture()
         internal
         view

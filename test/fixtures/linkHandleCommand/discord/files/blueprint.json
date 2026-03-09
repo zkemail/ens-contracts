@@ -1,0 +1,60 @@
+{
+  "name": "discord_2",
+  "values": [
+    {
+      "parts": [
+        {
+          "isPublic": false,
+          "regexDef": ">Hey "
+        },
+        {
+          "isPublic": true,
+          "regexDef": "[A-Za-z0-9_]+",
+          "maxLength": 64
+        },
+        {
+          "isPublic": false,
+          "regexDef": ","
+        }
+      ],
+      "name": "handle",
+      "maxLength": 64,
+      "location": "body",
+      "maxMatchLength": 64
+    },
+    {
+      "parts": [
+        {
+          "isPublic": false,
+          "regexDef": "(?:\\r\\n|^)from:[^\\r\\n]*@"
+        },
+        {
+          "isPublic": true,
+          "regexDef": "[A-Za-z0-9][A-Za-z0-9\\.-]+",
+          "maxLength": 64
+        },
+        {
+          "isPublic": false,
+          "regexDef": "[>\\r\\n]"
+        }
+      ],
+      "name": "sender_domain",
+      "maxLength": 64,
+      "location": "header",
+      "maxMatchLength": 64
+    }
+  ],
+  "version": 1,
+  "senderDomain": "discord.com",
+  "externalInputs": [
+    {
+      "name": "command",
+      "maxLength": 605
+    }
+  ],
+  "emailBodyMaxLength": 16384,
+  "ignoreBodyHashCheck": false,
+  "emailHeaderMaxLength": 960,
+  "clientZkFramework": "Noir",
+  "serverZkFramework": "SP1"
+}
