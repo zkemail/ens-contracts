@@ -100,18 +100,15 @@ abstract contract HandleVerifier is IVerifier {
         fields = new bytes32[](PUBLIC_INPUTS_LENGTH);
         fields[PUBKEY_HASH_OFFSET] = publicInputs.pubkeyHash;
         fields[EMAIL_NULLIFIER_OFFSET] = publicInputs.emailNullifier;
-        _copyTo(fields, HEADER_HASH_OFFSET, EnsUtils.packHeaderHash(publicInputs.headerHash));
-        _copyTo(
-            fields,
+        fields.replace(HEADER_HASH_OFFSET, EnsUtils.packHeaderHash(publicInputs.headerHash));
+        fields.replace(
             PROVER_ADDRESS_OFFSET,
             NoirUtils.packFieldsArray(abi.encodePacked(publicInputs.proverAddress), PROVER_ADDRESS_NUM_FIELDS)
         );
-        _copyTo(fields, COMMAND_OFFSET, NoirUtils.packFieldsArray(bytes(publicInputs.command), COMMAND_NUM_FIELDS));
-        _copyTo(fields, HANDLE_OFFSET, NoirUtils.packBoundedVecU8(bytes(publicInputs.handle), HANDLE_NUM_FIELDS));
-        _copyTo(
-            fields,
-            SENDER_DOMAIN_OFFSET,
-            NoirUtils.packBoundedVecU8(bytes(publicInputs.senderDomain), SENDER_DOMAIN_NUM_FIELDS)
+        fields.replace(COMMAND_OFFSET, NoirUtils.packFieldsArray(bytes(publicInputs.command), COMMAND_NUM_FIELDS));
+        fields.replace(HANDLE_OFFSET, NoirUtils.packBoundedVecU8(bytes(publicInputs.handle), HANDLE_NUM_FIELDS));
+        fields.replace(
+            SENDER_DOMAIN_OFFSET, NoirUtils.packBoundedVecU8(bytes(publicInputs.senderDomain), SENDER_DOMAIN_NUM_FIELDS)
         );
         return fields;
     }

@@ -29,8 +29,8 @@
   "dependencies": {
     "@ensdomains/ens-contracts": "^1.6.0",
     "@openzeppelin/community-contracts": "github:OpenZeppelin/openzeppelin-community-contracts#303697f",
-    "@openzeppelin/contracts": "5.5.0",
-    "@openzeppelin/contracts-upgradeable": "5.5.0",
+    "@openzeppelin/contracts": "5.6.0-rc.0",
+    "@openzeppelin/contracts-upgradeable": "5.6.0-rc.0",
     "@zk-email/email-tx-builder": "github:zkemail/email-tx-builder#7be3897ada47e6a2a6d33f4a69e4dd1fded937f4",
     "@zk-email/zk-email-verify": "github:zkemail/zk-email-verify#abe9d839d2518ef3f3f0a5fab2283fd672672dde",
     "solidity-stringutils": "github:zkemail/layer-zero-string-utils"
