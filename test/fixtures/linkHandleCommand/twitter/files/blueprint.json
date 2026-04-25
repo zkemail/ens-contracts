@@ -1,61 +1,79 @@
 {
-  "name": "x_handle",
-  "values": [
-    {
-      "parts": [
-        {
-          "isPublic": false,
-          "regexDef": "This email was meant for @"
-        },
-        {
-          "isPublic": true,
-          "regexDef": "[A-Za-z0-9_]+",
-          "maxLength": 64
-        },
-        {
-          "isPublic": false,
-          "regexDef": " </span>"
-        }
-      ],
-      "name": "x_handle",
-      "maxLength": 8,
-      "location": "body",
-      "maxMatchLength": 64
-    },
-    {
-      "parts": [
-        {
-          "isPublic": false,
-          "regexDef": "[A-Za-z0-9!#$%&'*+=?\\-\\^_`{|}~./]+@"
-        },
-        {
-          "isPublic": true,
-          "regexDef": "[A-Za-z0-9.\\-@]+",
-          "maxLength": 64
-        },
-        {
-          "isPublic": false,
-          "regexDef": "[>\r\n]"
-        }
-      ],
-      "name": "sender_domain",
-      "maxLength": 5,
-      "location": "header",
-      "maxMatchLength": 64
-    }
-  ],
-  "version": 1,
-  "senderDomain": "x.com",
-  "externalInputs": [
+  "id": "4c28f638-d5b7-4e48-a14d-8b149e70ce88",
+  "title": "twitter",
+  "description": "Verify X/Twitter handle ownership via password reset email",
+  "slug": "zkemail/twitter",
+  "email_query": "from:info@x.com subject:Password reset request",
+  "circuit_name": "twitter",
+  "sha_precompute_selector": "<td height=3D\"12\" style=3D\"height:12px;line-height:1px;font-size:1px;paddin",
+  "email_body_max_length": 1920,
+  "sender_domain": "x.com",
+  "client_zk_framework": 3,
+  "server_zk_framework": 2,
+  "verifier_contract_chain": 84532,
+  "is_public": true,
+  "created_at": {
+    "seconds": 1777060749,
+    "nanos": 940572000
+  },
+  "updated_at": {
+    "seconds": 1777060749,
+    "nanos": 940572000
+  },
+  "external_inputs": [
     {
       "name": "command",
-      "maxLength": 605
+      "max_length": 605
     }
   ],
-  "emailBodyMaxLength": 1920,
-  "ignoreBodyHashCheck": false,
-  "emailHeaderMaxLength": 960,
-  "shaPrecomputeSelector": "<td height=3D\"12\" style=3D\"height:12px;line-height:1px;font-size:1px;paddin",
-  "clientZkFramework": "Noir",
-  "serverZkFramework": "SP1"
+  "decomposed_regexes": [
+    {
+      "name": "x_handle",
+      "location": "body",
+      "max_match_length": 64,
+      "parts": [
+        {
+          "is_public": false,
+          "regex_def": "This email was meant for @"
+        },
+        {
+          "is_public": true,
+          "regex_def": "[A-Za-z0-9_]+",
+          "max_length": 64
+        },
+        {
+          "is_public": false,
+          "regex_def": " </span>"
+        }
+      ],
+      "max_length": 64
+    },
+    {
+      "name": "sender_domain",
+      "location": "header",
+      "max_match_length": 64,
+      "parts": [
+        {
+          "is_public": false,
+          "regex_def": "[A-Za-z0-9!#$%&'*+=?\\-\\^_`{|}~./]+@"
+        },
+        {
+          "is_public": true,
+          "regex_def": "[A-Za-z0-9.\\-@]+",
+          "max_length": 64
+        },
+        {
+          "is_public": false,
+          "regex_def": "[>\\r\\n]"
+        }
+      ],
+      "max_length": 64
+    }
+  ],
+  "client_status": 3,
+  "server_status": 3,
+  "version": 1,
+  "github_username": "zkemail",
+  "email_header_max_length": 960,
+  "remove_soft_linebreaks": true
 }

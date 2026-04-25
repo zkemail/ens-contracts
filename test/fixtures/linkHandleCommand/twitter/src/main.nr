@@ -4,14 +4,16 @@ mod sender_domain_regex;
 use poseidon::poseidon;
 use std::{collections::bounded_vec::BoundedVec, hash::pedersen_hash};
 use zkemail::{
-    dkim::RSAPubkey, hash::poseidon_large, headers::body_hash::get_body_hash, KEY_LIMBS_2048,
+    dkim::RSAPubkey,
+    hash::poseidon_large,
+    headers::body_hash::get_body_hash,
     partial_hash::partial_sha256_var_end, remove_soft_line_breaks::remove_soft_line_breaks,
-    Sequence, utils::pack_bytes,
+    masking::mask_text, Sequence, utils::pack_bytes,
 };
 fn main(
     header: BoundedVec<u8, 960>,
-    pubkey: RSAPubkey<KEY_LIMBS_2048>,
-    signature: [Field; KEY_LIMBS_2048],
+    pubkey: RSAPubkey<18>,
+    signature: [Field; 18],
     prover_address: [Field; 1],
     dkim_header_sequence: Sequence,
     body: BoundedVec<u8, 1920>,
