@@ -1,60 +1,78 @@
 {
-  "name": "discord_2",
-  "values": [
-    {
-      "parts": [
-        {
-          "isPublic": false,
-          "regexDef": ">Hey "
-        },
-        {
-          "isPublic": true,
-          "regexDef": "[A-Za-z0-9_]+",
-          "maxLength": 64
-        },
-        {
-          "isPublic": false,
-          "regexDef": ","
-        }
-      ],
-      "name": "handle",
-      "maxLength": 64,
-      "location": "body",
-      "maxMatchLength": 64
-    },
-    {
-      "parts": [
-        {
-          "isPublic": false,
-          "regexDef": "(?:\\r\\n|^)from:[^\\r\\n]*@"
-        },
-        {
-          "isPublic": true,
-          "regexDef": "[A-Za-z0-9][A-Za-z0-9\\.-]+",
-          "maxLength": 64
-        },
-        {
-          "isPublic": false,
-          "regexDef": "[>\\r\\n]"
-        }
-      ],
-      "name": "sender_domain",
-      "maxLength": 64,
-      "location": "header",
-      "maxMatchLength": 64
-    }
-  ],
-  "version": 1,
-  "senderDomain": "discord.com",
-  "externalInputs": [
+  "id": "ea0e3280-dd36-42f7-bb1a-89093e3b02dd",
+  "title": "discord",
+  "description": "Verify Discord handle ownership via email",
+  "slug": "zkemail/discord",
+  "email_query": "from:noreply@discord.com",
+  "circuit_name": "discord",
+  "email_body_max_length": 16384,
+  "sender_domain": "discord.com",
+  "client_zk_framework": 3,
+  "server_zk_framework": 2,
+  "verifier_contract_chain": 84532,
+  "is_public": true,
+  "created_at": {
+    "seconds": 1777060765,
+    "nanos": 676447000
+  },
+  "updated_at": {
+    "seconds": 1777060765,
+    "nanos": 676447000
+  },
+  "external_inputs": [
     {
       "name": "command",
-      "maxLength": 605
+      "max_length": 605
     }
   ],
-  "emailBodyMaxLength": 16384,
-  "ignoreBodyHashCheck": false,
-  "emailHeaderMaxLength": 960,
-  "clientZkFramework": "Noir",
-  "serverZkFramework": "SP1"
+  "decomposed_regexes": [
+    {
+      "name": "handle",
+      "location": "body",
+      "max_match_length": 64,
+      "parts": [
+        {
+          "is_public": false,
+          "regex_def": ">Hey "
+        },
+        {
+          "is_public": true,
+          "regex_def": "[A-Za-z0-9_]+",
+          "max_length": 64
+        },
+        {
+          "is_public": false,
+          "regex_def": ","
+        }
+      ],
+      "max_length": 64
+    },
+    {
+      "name": "sender_domain",
+      "location": "header",
+      "max_match_length": 64,
+      "parts": [
+        {
+          "is_public": false,
+          "regex_def": "(?:\\\\r\\\\n|^)from:[^\\\\r\\\\n]*@"
+        },
+        {
+          "is_public": true,
+          "regex_def": "[A-Za-z0-9][A-Za-z0-9.\\-]+",
+          "max_length": 64
+        },
+        {
+          "is_public": false,
+          "regex_def": "[>\\\\r\\\\n]"
+        }
+      ],
+      "max_length": 64
+    }
+  ],
+  "client_status": 3,
+  "server_status": 3,
+  "version": 1,
+  "github_username": "zkemail",
+  "email_header_max_length": 960,
+  "remove_soft_linebreaks": true
 }

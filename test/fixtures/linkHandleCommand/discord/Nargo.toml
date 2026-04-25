@@ -1,5 +1,5 @@
 [package]
-name = "zkemail/discord_2@1"
+name = "zkemail/discord@v1"
 type = "bin"
 authors = []
 compiler_version = ">=1.0.0"
