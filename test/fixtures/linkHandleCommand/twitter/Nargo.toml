@@ -1,5 +1,5 @@
 [package]
-name = "sdk_noir"
+name = "zkemail/twitter@v1"
 type = "bin"
 authors = []
 compiler_version = ">=1.0.0"
