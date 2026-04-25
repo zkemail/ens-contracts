@@ -1,5 +1,5 @@
 {
-  "id": "ea0e3280-dd36-42f7-bb1a-89093e3b02dd",
+  "id": "182dc160-fdad-4ad9-94a5-e9e334359c11",
   "title": "discord",
   "description": "Verify Discord handle ownership via email",
   "slug": "zkemail/discord",
@@ -12,12 +12,12 @@
   "verifier_contract_chain": 84532,
   "is_public": true,
   "created_at": {
-    "seconds": 1777060765,
-    "nanos": 676447000
+    "seconds": 1777111172,
+    "nanos": 27672000
   },
   "updated_at": {
-    "seconds": 1777060765,
-    "nanos": 676447000
+    "seconds": 1777111172,
+    "nanos": 27672000
   },
   "external_inputs": [
     {
@@ -54,7 +54,7 @@
       "parts": [
         {
           "is_public": false,
-          "regex_def": "(?:\\\\r\\\\n|^)from:[^\\\\r\\\\n]*@"
+          "regex_def": "(?:\\r\\n|^)from:[^\\r\\n]*@"
         },
         {
           "is_public": true,
@@ -63,7 +63,7 @@
         },
         {
           "is_public": false,
-          "regex_def": "[>\\\\r\\\\n]"
+          "regex_def": "[>\\r\\n]"
         }
       ],
       "max_length": 64
@@ -71,7 +71,7 @@
   ],
   "client_status": 3,
   "server_status": 3,
-  "version": 1,
+  "version": 2,
   "github_username": "zkemail",
   "email_header_max_length": 960,
   "remove_soft_linebreaks": true
