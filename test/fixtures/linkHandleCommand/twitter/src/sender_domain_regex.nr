@@ -57,7 +57,7 @@ fn check_accept_state(
 
 /**
  * SenderDomainRegex matching function
- * Regex: [A-Za-z0-9!#$%&'*+=?\\-\\^_`{|}~./]+@([A-Za-z0-9.\\-@]+)[>\r\n]
+ * Regex: [A-Za-z0-9!#$%&'*+=?\\-\\^_`{|}~./]+@([A-Za-z0-9.\\-@]+)[>\\r\\n]
  * @param in_haystack - The input haystack to search from
  * @param match_start - The start index in the haystack for the subarray to match from
  * @param match_length - The length of the subarray to extract from haystack
